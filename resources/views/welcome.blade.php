@@ -67,7 +67,38 @@
             </select>
             <button type="submit">SORTUJ</button>
         </form>
+
+
 </div>
+
+
+<div style="width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:50px;
+
+    ">
+    <form method="post" action="{{route('searchsize')}}" >
+        @csrf
+        <label for="size">Wybierz rozmiar:</label>
+        <select name="size" id="size">
+                <option value="*" name="all">WSZYSTKO</option>
+                <option value="XS" name="xs">XS</option>
+                <option value="S" name="s">S</option>
+                <option value="M" name="m">M</option>
+                <option value="L" name="l">L</option>
+                <option value="XL" name="xl">XL</option>
+                <option value="XXL" name="xxl">XXL</option>
+
+        </select>
+        <input type="submit" value="szukaj <3 ">
+    </form>
+
+
+</div>
+
+
 
 <div style="width: 100%;
     display: flex;
@@ -113,6 +144,7 @@
         </div>
 
         @endforeach
+
     </div>
 
 

@@ -152,6 +152,7 @@ Route::post('/search', function (Request $request) {
         return
             strpos(strtolower($element->title), strtolower($find)) !== false
         || strpos(strtolower($element->user->login), strtolower($find)) !== false
+        || strpos(strtolower($element->brand_title), strtolower($find)) !== false
             || strpos(strtolower($element->price), strtolower($find)) !== false;
     });
 
@@ -159,4 +160,22 @@ Route::post('/search', function (Request $request) {
 
     return view('welcome', compact('d'));
 })->name('search');
+
+Route::post('/searchsize', function (Request $request) {
+    $contents = \File::get('siema.json');
+    $d = json_decode($contents);
+
+    $find = $request->size;
+    if($find == "*"){
+        return view('welcome', compact('d'));
+    }else{
+        $d->items = array_filter($d->items, function($element) use ($find) {
+            return strtolower($element->size_title) === strtolower($find);
+        });
+    }
+
+
+
+
+    return view('welcome', compact('d')); })->name('searchsize');
 
