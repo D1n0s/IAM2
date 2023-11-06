@@ -59,10 +59,28 @@
                 <option value="1">Serduszka</option>
                 <option value="2">Cena od najniższej</option>
                 <option value="3">Cena od najwyższej</option>
+                <option value="4">Czerwony</option>
+                <option value="5">Zielony</option>
+                <option value="6">Żółty</option>
+                <option value="7">Niebieski</option>
+
             </select>
             <button type="submit">SORTUJ</button>
         </form>
 </div>
+
+<div style="width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:50px;
+
+    ">
+    <form method="post" action="{{route('search')}}">
+        @csrf
+        <input type="text" id="search" name="search" autofocus>
+        <button type="submit">Wyszukaj</button>
+    </form></div>
 
     <div class="content">
         @foreach($d->items as $item)
@@ -79,7 +97,9 @@
                 </div>
 
             <div class="photo">
+                <a href="{{$item->url}}">
                 <img src="{{$item->photo->url}}" alt="" width="290" height="435">
+                </a>
             </div>
             <div class="desc" style="width:70%;float:left;">
                 <p style="margin-bottom:0px;font-size: 20px;">{{ number_format($item->price,2) }} zł</p>

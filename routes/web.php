@@ -65,9 +65,98 @@ Route::post('/sort', function (Request $request) {
          return -1*($a->price < $b->price ? -1 : 1);
      };
      usort($d->items, $compareByFavoriteCount);
+ }else if($option == 4)
+ {
+     ///
+     $filteredItems = [];
+     foreach ($d->items as $element) {
+             $colorValue = hexdec($element->photo->dominant_color); // Konwersja wartości szesnastkowej na dziesiętną
+             if (5611520 < $colorValue && $colorValue < 16744181) {
+                 $filteredItems[] = $element;
+             }
+     }
+
+     $d->items = $filteredItems;
+     ///
+     //red
+//     if(5611520<$hexColor && $hexColor<16744181)
+//     {
+//     }elseif (78208<$hexColor && $hexColor<16741939)
+//     {
+//         echo 'green';
+//     }elseif (9117184<$hexColor && $hexColor<16775917)
+//     {
+//         echo  'yellow';
+//     }elseif (139<$hexColor && $hexColor<11393254)
+//     {
+//         echo 'blue';
+//     }
+
+ }else if($option == 5)
+ {
+     ///
+     $filteredItems = [];
+     foreach ($d->items as $element) {
+         $colorValue = hexdec($element->photo->dominant_color); // Konwersja wartości szesnastkowej na dziesiętną
+         if (78208<$colorValue && $colorValue<16741939) {
+             $filteredItems[] = $element;
+         }
+     }
+
+     $d->items = $filteredItems;
+
+ }else if($option == 6)
+ {
+     ///
+     $filteredItems = [];
+     foreach ($d->items as $element) {
+         $colorValue = hexdec($element->photo->dominant_color); // Konwersja wartości szesnastkowej na dziesiętną
+         if (9117184<$colorValue && $colorValue<16775917) {
+             $filteredItems[] = $element;
+         }
+     }
+
+     $d->items = $filteredItems;
+
+
+ }else if($option == 7)
+ {
+     ///
+     $filteredItems = [];
+     foreach ($d->items as $element) {
+         $colorValue = hexdec($element->photo->dominant_color); // Konwersja wartości szesnastkowej na dziesiętną
+         if (139<$colorValue && $colorValue<11393254) {
+             $filteredItems[] = $element;
+         }
+     }
+
+     $d->items = $filteredItems;
+
+
  }
 
 
 
     return view('welcome',compact(['d','option']));
 })->name('sort');
+
+
+
+Route::post('/search', function (Request $request) {
+    $contents = \File::get('siema.json');
+    $d = json_decode($contents);
+
+
+    $find = $request->search;
+    $d->items = array_filter($d->items, function($element) use ($find) {
+        return
+            strpos(strtolower($element->title), strtolower($find)) !== false
+        || strpos(strtolower($element->user->login), strtolower($find)) !== false
+            || strpos(strtolower($element->price), strtolower($find)) !== false;
+    });
+
+
+
+    return view('welcome', compact('d'));
+})->name('search');
+
