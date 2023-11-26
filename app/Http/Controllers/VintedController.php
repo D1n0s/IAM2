@@ -16,9 +16,7 @@ class VintedController extends Controller
     public function index()
     {
 
-        $d = $this->pagination($this->fetchData());
-
-        //
+        $d = $this->fetchData();
 
         return view('welcome', compact('d'));
     }
@@ -96,29 +94,6 @@ class VintedController extends Controller
         }
     }
 
-    private function pagination($dane)
-    {
-
-        $naStrone = 10;
-
-        $strona = request()->get('page', 1);
-
-        $indeksPoczatkowy = ($strona - 1) * $naStrone;
-
-        $daneStrony = array_slice($dane, $indeksPoczatkowy, $naStrone);
-
-        $kolekcjaDanych = new Collection($daneStrony);
-
-        $d = new LengthAwarePaginator(
-            $kolekcjaDanych,
-            count($dane),
-            $naStrone,
-            $strona,
-            ['path' => request()->url()]
-        );
-
-        return $d;
-    }
 
     private function getCookie()
     {
@@ -245,7 +220,7 @@ class VintedController extends Controller
 
         }
 
-        $d = $this->pagination($d);
+
         return view('welcome', compact(['d', 'option']));
 
     }
@@ -264,7 +239,7 @@ class VintedController extends Controller
                 || strpos(strtolower($element['price']), strtolower($find)) !== false;
         });
 
-        $d = $this->pagination($d);
+
         return view('welcome', compact('d'));
     }
 
@@ -284,7 +259,6 @@ class VintedController extends Controller
                 return strtolower($element['size_title']) === strtolower($find);
             });
         }
-        $d = $this->pagination($d);
 
         return view('welcome', compact('d'));
 
